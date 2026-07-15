@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: qc-gudang-damar-api
+    runtime: php
+    plan: free
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan config:cache
+      php artisan route:cache
+    startCommand: |
+      php artisan migrate --force
+      php artisan storage:link
+      php artisan serve --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false # generate manual lewat `php artisan key:generate --show`, tempel di dashboard Render
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        sync: false # isi dari Neon dashboard
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
