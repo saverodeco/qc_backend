@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.4-fpm
 
 # --- System dependencies ---
 RUN apt-get update && apt-get install -y \
@@ -33,6 +33,10 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install PHP deps (no dev, optimized autoloader)
+# Composer kadang OOM waktu extract package besar (Symfony, dll) di builder
+# dengan memori terbatas — matikan limit memori composer sendiri.
+ENV COMPOSER_MEMORY_LIMIT=-1
+
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Laravel needs write access here; if you attach a Render Persistent Disk,
