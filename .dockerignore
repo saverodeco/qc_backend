@@ -13,6 +13,4 @@ storage/framework/views/*
 storage/logs/*
 tests
 .phpunit.result.cache
-Dockerfile
-docker
 README.md
