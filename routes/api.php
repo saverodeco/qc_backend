@@ -10,4 +10,5 @@ Route::prefix('qc')->group(function () {
     Route::post('{no_iml}/submit', [QcController::class, 'submit']);
     Route::post('{no_iml}/photos', [QcController::class, 'uploadPhoto']);
     Route::delete('{no_iml}/photos/{id}', [QcController::class, 'deletePhoto']);
+    Route::patch('{no_iml}/jam', [QcController::class, 'updateJam']);
 });
