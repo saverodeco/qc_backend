@@ -14,4 +14,6 @@ Route::prefix('qc')->group(function () {
     Route::post('{no_iml}/photos', [QcController::class, 'uploadPhoto']);
     Route::patch('{no_iml}/photos/{id}', [QcController::class, 'updatePhotoMc']);
     Route::delete('{no_iml}/photos/{id}', [QcController::class, 'deletePhoto']);
+    Route::get('/qc/inspectors', [QcController::class, 'searchInspectors']);
+    Route::get('/qc/lookup/{no_iml}', [QcController::class, 'lookup']);
 });
