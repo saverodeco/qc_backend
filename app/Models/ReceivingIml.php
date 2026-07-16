@@ -55,6 +55,10 @@ class ReceivingIml extends Model
         // Tambahan di luar skema perusahaan, khusus alur QC mobile:
         'tanggal_janji',
         'tanggal_kedatangan',
+        'jam_check_in',
+        'jam_mulai_bongkar',
+        'jam_selesai_bongkar',
+        'jam_check_out',
         'status',
         'jumlah',
         'satuan',
@@ -63,6 +67,10 @@ class ReceivingIml extends Model
     protected $casts = [
         'tanggal_janji' => 'date',
         'tanggal_kedatangan' => 'date',
+        'jam_check_in' => 'datetime',
+        'jam_mulai_bongkar' => 'datetime',
+        'jam_selesai_bongkar' => 'datetime',
+        'jam_check_out' => 'datetime',
         'ts_crt' => 'datetime',
         'ts_mod' => 'datetime',
         'netto_timbang' => 'decimal:2',
