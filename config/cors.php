@@ -22,7 +22,7 @@ return [
   // config/cors.php di project Laravel (Render)
     'allowed_origins' => [
         'http://localhost:5173',
-        'https://qc-frontend-ten.vercel.app',
+        'https://qc-frontend-1pjx.vercel.app',
     ],
 
     'allowed_origins_patterns' => [],
