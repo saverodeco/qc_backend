@@ -16,6 +16,55 @@ use Illuminate\Support\Str;
 class QcController extends Controller
 {
     /**
+     * PATCH /api/qc/{no_iml}/jam
+     *
+     * Set salah satu (atau lebih) dari 4 timestamp proses secara manual:
+     * jam_check_in, jam_mulai_bongkar, jam_selesai_bongkar, jam_check_out.
+     * Dipakai oleh tombol "Simpan" di masing-masing field jam pada layar
+     * Input Metrik QC.
+     */
+    public function updateJam(Request $request, string $noIml): JsonResponse
+    {
+        $iml = ReceivingIml::where('no_iml', $noIml)->first();
+
+        if (! $iml) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No IML tidak terdaftar.',
+            ], 404);
+        }
+
+        if ($iml->status === 'QC_DONE') {
+            return response()->json([
+                'success' => false,
+                'message' => 'QC untuk IML ini sudah selesai, waktu tidak bisa diubah lagi.',
+            ], 409);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'jam_check_in' => 'sometimes|nullable|date',
+            'jam_mulai_bongkar' => 'sometimes|nullable|date',
+            'jam_selesai_bongkar' => 'sometimes|nullable|date',
+            'jam_check_out' => 'sometimes|nullable|date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tanggal & waktu tidak valid.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $iml->update($validator->validated());
+
+        return response()->json([
+            'success' => true,
+            'data' => $iml,
+        ]);
+    }
+
+    /**
      * GET /api/qc/inspectors?q=dedi
      *
      * Dipakai dropdown pencarian "QC Inspector" di layar Input Metrik QC.
